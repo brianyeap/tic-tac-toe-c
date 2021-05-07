@@ -150,14 +150,40 @@ int main()
             }
         }
 
-        time_t t;
-        /* Intialize random number generator */
-        srand((unsigned) time(&t));
-        /* Print 5 random numbers from 0 to ? */
-        int ranNum = rand() % emptySlotsLen;
+        /* Counter User */
+        int countered = 0;
+        for (int i = 0; i < emptySlotsLen; i++) {
+            /* Find win */
+            grids[availableSlots[i][0] - 1][availableSlots[i][1] - 1] = -1;
+            if (checkWinner() == -1) {
+                countered = 1;
+                break;
+            } else {
+                grids[availableSlots[i][0] - 1][availableSlots[i][1] - 1] = 0;
+            }
 
-        grids[availableSlots[ranNum][0] - 1][availableSlots[ranNum][1] - 1] = -1;
+            if (countered != 1) {
+                /* counter user */
+                grids[availableSlots[i][0] - 1][availableSlots[i][1] - 1] = 1;
+                if (checkWinner() == 1) {
+                    grids[availableSlots[i][0] - 1][availableSlots[i][1] - 1] = -1;
+                    countered = 1;
+                    break;
+                } else {
+                    grids[availableSlots[i][0] - 1][availableSlots[i][1] - 1] = 0;
+                }
+            }
+        }
 
+        if (countered != 1){
+            time_t t;
+            /* Intialize random number generator */
+            srand((unsigned) time(&t));
+            /* Print 5 random numbers from 0 to ? */
+            int ranNum = rand() % emptySlotsLen;
+
+            grids[availableSlots[ranNum][0] - 1][availableSlots[ranNum][1] - 1] = -1;
+        }
     }
 
 
